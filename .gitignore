@@ -1,0 +1,20 @@
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# IDEs and other tools
+.vscode/
+.idea/
+*.log
+*.DS_Store
+
+# Build artifacts
+dist/
+*.vsix
+
+# OS generated files
+.DS_Store
+Thumbs.db 

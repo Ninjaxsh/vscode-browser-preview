@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Preview</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .toolbar {
+            padding: 8px;
+            background: var(--vscode-editor-background);
+            border-bottom: 1px solid var(--vscode-panel-border);
+            display: flex;
+            gap: 8px;
+        }
+        .toolbar button {
+            padding: 4px 8px;
+            background: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .toolbar button:hover {
+            background: var(--vscode-button-hoverBackground);
+        }
+        .preview-container {
+            flex: 1;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button id="devToolsBtn">Open DevTools</button>
+    </div>
+    <div class="preview-container">
+        <iframe src="${url}" id="preview"></iframe>
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        const iframe = document.getElementById('preview');
+        const devToolsBtn = document.getElementById('devToolsBtn');
+        
+        // 监听来自扩展的消息
+        window.addEventListener('message', event => {
+            const message = event.data;
+            switch (message.command) {
+                case 'loadUrl':
+                    iframe.src = message.url;
+                    break;
+            }
+        });
+
+        // 监听按钮点击
+        devToolsBtn.addEventListener('click', () => {
+            vscode.postMessage({ command: 'openDevTools' });
+        });
+    </script>
+</body>
+</html> 

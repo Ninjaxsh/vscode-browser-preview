@@ -1,0 +1,101 @@
+{
+  "publisher": "charles",
+  "name": "vscode-browser-preview",
+  "displayName": "Browser Preview with DevTools",
+  "description": "Embedded preview websites in VSCode with DevTools support",
+  "packageManager": "pnpm@9.4.0",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "author": {
+    "name": "Charles Scott",
+    "email": "mark.xsq@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ninjaxsh/vscode-browser-preview"
+  },
+  "license": "MIT",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:browser-preview.openPreview"
+  ],
+  "main": "./dist/extension.js",
+  "bundledDependencies": [
+    "http-proxy",
+    "chrome-remote-interface"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "Browser Preview",
+      "properties": {
+        "browser-preview.chromeExecutable": {
+          "type": "string",
+          "default": "",
+          "description": "Chrome 浏览器可执行文件路径"
+        },
+        "browser-preview.startUrl": {
+          "type": "string",
+          "default": "http://localhost:5173/",
+          "description": "默认启动页面 URL"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "browser-preview.openPreview",
+        "title": "Open Browser Preview",
+        "category": "Browser Preview"
+      },
+      {
+        "command": "browser-preview.openDevTools",
+        "title": "Open Debug Page",
+        "category": "Browser Preview",
+        "icon": "$(debug)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "browser-preview.openPreview",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "browserPreviewActive",
+          "command": "browser-preview.openDevTools",
+          "group": "navigation",
+          "title": "调试"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run build",
+    "pack": "npx @vscode/vsce package",
+    "build": "rimraf dist && vite build && pnpm run build:ts --minify",
+    "build:ts": "tsup src/extension.ts --external=vscode -d dist",
+    "watch": "tsup src/extension.ts --external=vscode -d dist --watch"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@types/http-proxy": "^1.17.16",
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.100.0",
+    "@vscode/vsce": "^3.5.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "chrome-remote-interface": "^0.33.3",
+    "http-proxy": "^1.18.1"
+  }
+}
