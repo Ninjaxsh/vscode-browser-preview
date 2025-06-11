@@ -78,7 +78,7 @@
   },
   "scripts": {
     "vscode:prepublish": "pnpm run build",
-    "pack": "npx @vscode/vsce package",
+    "pack": "pnpm dlx @vscode/vsce package",
     "build": "rimraf dist && vite build && pnpm run build:ts --minify",
     "build:ts": "tsup src/extension.ts --external=vscode -d dist",
     "watch": "tsup src/extension.ts --external=vscode -d dist --watch"
